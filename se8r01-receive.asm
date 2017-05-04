@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Jul  5 2014) (Linux)
-; This file was generated Thu May  4 12:24:29 2017
+; This file was generated Thu May  4 19:31:08 2017
 ;--------------------------------------------------------
 	.module se8r01_receive
 	.optsdcc -mstm8
@@ -1575,13 +1575,13 @@ _main:
 	addw	x, #0x0004
 	ld	a, #0xf0
 	ld	(x), a
-;	se8r01-receive.c: 530: InitializeSystemClock();
+;	se8r01-receive.c: 531: InitializeSystemClock();
 	call	_InitializeSystemClock
-;	se8r01-receive.c: 531: InitializeUART();
+;	se8r01-receive.c: 532: InitializeUART();
 	call	_InitializeUART
-;	se8r01-receive.c: 533: InitializeSPI ();
+;	se8r01-receive.c: 534: InitializeSPI ();
 	call	_InitializeSPI
-;	se8r01-receive.c: 536: memset (tx_payload, 0, sizeof(tx_payload));
+;	se8r01-receive.c: 537: memset (tx_payload, 0, sizeof(tx_payload));
 	ldw	x, sp
 	incw	x
 	push	#0x21
@@ -1591,176 +1591,174 @@ _main:
 	pushw	x
 	call	_memset
 	addw	sp, #6
-;	se8r01-receive.c: 539: init_io();                        // Initialize IO port
+;	se8r01-receive.c: 540: init_io();                        // Initialize IO port
 	call	_init_io
-;	se8r01-receive.c: 540: write_spi_reg(FLUSH_RX,0); // receive data 
+;	se8r01-receive.c: 541: write_spi_reg(FLUSH_RX,0); // receive data 
 	push	#0x00
 	push	#0xe2
 	call	_write_spi_reg
 	addw	sp, #2
-;	se8r01-receive.c: 541: readstatus = read_spi_reg(CONFIG);
+;	se8r01-receive.c: 542: readstatus = read_spi_reg(CONFIG);
 	push	#0x00
 	call	_read_spi_reg
 	addw	sp, #1
-;	se8r01-receive.c: 542: UARTPrintF("config = \n\r");
+;	se8r01-receive.c: 543: UARTPrintF("config = \n\r");
 	ldw	x, #___str_0+0
 	push	a
 	pushw	x
 	call	_UARTPrintF
 	addw	sp, #2
 	pop	a
-;	se8r01-receive.c: 543: print_UCHAR_hex(readstatus);
+;	se8r01-receive.c: 544: print_UCHAR_hex(readstatus);
 	push	a
 	call	_print_UCHAR_hex
 	pop	a
-;	se8r01-receive.c: 544: readstatus = read_spi_reg(STATUS);
+;	se8r01-receive.c: 545: readstatus = read_spi_reg(STATUS);
 	push	#0x07
 	call	_read_spi_reg
 	addw	sp, #1
-;	se8r01-receive.c: 545: UARTPrintF("status = \n\r");
+;	se8r01-receive.c: 546: UARTPrintF("status = \n\r");
 	ldw	x, #___str_1+0
 	push	a
 	pushw	x
 	call	_UARTPrintF
 	addw	sp, #2
 	pop	a
-;	se8r01-receive.c: 546: print_UCHAR_hex(readstatus);
+;	se8r01-receive.c: 547: print_UCHAR_hex(readstatus);
 	push	a
 	call	_print_UCHAR_hex
 	pop	a
-;	se8r01-receive.c: 548: SE8R01_Init();
+;	se8r01-receive.c: 549: SE8R01_Init();
 	call	_SE8R01_Init
-;	se8r01-receive.c: 552: while (1) {
-00109$:
-;	se8r01-receive.c: 554: if ((PD_IDR & (1 << 3))==0) //input low
+;	se8r01-receive.c: 553: while (1) {
+00110$:
+;	se8r01-receive.c: 555: if ((PD_IDR & (1 << 3))==0) //input low
 	ldw	x, #0x5010
 	ld	a, (x)
 	bcp	a, #0x08
-	jreq	00158$
-	jp	00104$
-00158$:
-;	se8r01-receive.c: 558: delay(240);
+	jreq	00170$
+	jp	00105$
+00170$:
+;	se8r01-receive.c: 559: delay(240);
 	push	#0xf0
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	se8r01-receive.c: 559: signal_lv=read_spi_reg(iRF_BANK0_RPD);
+;	se8r01-receive.c: 560: signal_lv=read_spi_reg(iRF_BANK0_RPD);
 	push	#0x09
 	call	_read_spi_reg
 	addw	sp, #1
 	ld	_signal_lv+0, a
-;	se8r01-receive.c: 560: status = read_spi_reg(STATUS);
+;	se8r01-receive.c: 561: status = read_spi_reg(STATUS);
 	push	#0x07
 	call	_read_spi_reg
 	addw	sp, #1
 	ld	_status+0, a
-;	se8r01-receive.c: 562: if(status&STA_MARK_RX)                                                 // if receive data ready (TX_DS) interrupt
-	btjt	_status+0, #6, 00159$
-	jra	00102$
-00159$:
-;	se8r01-receive.c: 565: pip= (status & 0b00001110)>>1;
+;	se8r01-receive.c: 563: if(status&STA_MARK_RX)                                                 // if receive data ready (TX_DS) interrupt
+	btjt	_status+0, #6, 00171$
+	jra	00103$
+00171$:
+;	se8r01-receive.c: 566: pip= (status & 0b00001110)>>1;
 	ld	a, _status+0
 	and	a, #0x0e
 	srl	a
 	clrw	x
 	ld	xl, a
 	ldw	_pip+0, x
-;	se8r01-receive.c: 567: write_spi_reg(FLUSH_RX,0);
-	push	#0x00
-	push	#0xe2
-	call	_write_spi_reg
-	addw	sp, #2
-;	se8r01-receive.c: 568: read_spi_buf(RD_RX_PLOAD, rx_buf,4);             // read playload to rx_buf
+;	se8r01-receive.c: 567: pload_width_now=read_spi_reg(iRF_CMD_R_RX_PL_WID);
+	push	#0x60
+	call	_read_spi_reg
+	addw	sp, #1
+	clrw	x
+	ld	xl, a
+	ldw	_pload_width_now+0, x
+;	se8r01-receive.c: 568: read_spi_buf(RD_RX_PLOAD, rx_buf,32);             // read playload to rx_buf
 	ldw	x, #_rx_buf+0
 	ldw	(0x32, sp), x
 	ldw	x, (0x32, sp)
-	push	#0x04
+	push	#0x20
 	pushw	x
 	push	#0x61
 	call	_read_spi_buf
 	addw	sp, #4
-;	se8r01-receive.c: 570: newdata=1;
+;	se8r01-receive.c: 569: write_spi_reg(FLUSH_RX,0);
+	push	#0x00
+	push	#0xe2
+	call	_write_spi_reg
+	addw	sp, #2
+;	se8r01-receive.c: 571: newdata=1;
 	mov	_newdata+1, #0x01
 	clr	_newdata+0
-;	se8r01-receive.c: 571: print_UCHAR_hex(rx_buf[0]);
-	ldw	x, (0x32, sp)
-	ld	a, (x)
+;	se8r01-receive.c: 572: for (teller=0;teller<32;++teller)
+	clrw	x
+00112$:
+;	se8r01-receive.c: 573: print_UCHAR_hex (rx_buf[teller]);
+	ldw	y, x
+	addw	y, (0x32, sp)
+	ld	a, (y)
+	pushw	x
 	push	a
 	call	_print_UCHAR_hex
 	pop	a
-;	se8r01-receive.c: 572: print_UCHAR_hex(rx_buf[1]);
-	ldw	x, (0x32, sp)
-	ld	a, (0x1, x)
-	push	a
-	call	_print_UCHAR_hex
-	pop	a
-;	se8r01-receive.c: 573: print_UCHAR_hex(rx_buf[2]);
-	ldw	x, (0x32, sp)
-	ld	a, (0x2, x)
-	push	a
-	call	_print_UCHAR_hex
-	pop	a
-;	se8r01-receive.c: 574: print_UCHAR_hex(rx_buf[3]);
-	ldw	x, (0x32, sp)
-	ld	a, (0x3, x)
-	push	a
-	call	_print_UCHAR_hex
-	pop	a
-;	se8r01-receive.c: 575: print_UCHAR_hex(rx_buf[4]);
-	ldw	x, (0x32, sp)
-	ld	a, (0x4, x)
-	push	a
-	call	_print_UCHAR_hex
-	pop	a
-00102$:
-;	se8r01-receive.c: 578: write_spi_reg(WRITE_REG+STATUS,status);       // clear RX_DR or TX_DS or MAX_RT interrupt flag
+	popw	x
+;	se8r01-receive.c: 572: for (teller=0;teller<32;++teller)
+	incw	x
+	cpw	x, #0x0020
+	jrslt	00112$
+;	se8r01-receive.c: 581: UARTPrintF("\n\r");
+	ldw	x, #___str_2+0
+	pushw	x
+	call	_UARTPrintF
+	addw	sp, #2
+00103$:
+;	se8r01-receive.c: 584: write_spi_reg(WRITE_REG+STATUS,status);       // clear RX_DR or TX_DS or MAX_RT interrupt flag
 	push	_status+0
 	push	#0x27
 	call	_write_spi_reg
 	addw	sp, #2
-00104$:
-;	se8r01-receive.c: 595: for (x1 = 0; x1 < 50; ++x1)
+00105$:
+;	se8r01-receive.c: 601: for (x1 = 0; x1 < 50; ++x1)
 	clrw	x
 	ldw	(0x30, sp), x
-00118$:
+00121$:
 	ldw	x, (0x30, sp)
 	cpw	x, #0x0032
-	jrslt	00160$
-	jp	00109$
-00160$:
-;	se8r01-receive.c: 596: for (y1 = 0; y1 < 50; ++y1)
+	jrslt	00173$
+	jp	00110$
+00173$:
+;	se8r01-receive.c: 602: for (y1 = 0; y1 < 50; ++y1)
 	clrw	x
 	ldw	(0x2e, sp), x
-00115$:
+00118$:
 	ldw	x, (0x2e, sp)
+	cpw	x, #0x0032
+	jrsge	00122$
+;	se8r01-receive.c: 603: for (z1 = 0; z1 < 50; ++z1)
+	clrw	x
+	ldw	(0x2c, sp), x
+00115$:
+	ldw	x, (0x2c, sp)
 	cpw	x, #0x0032
 	jrsge	00119$
-;	se8r01-receive.c: 597: for (z1 = 0; z1 < 50; ++z1)
-	clrw	x
-	ldw	(0x2c, sp), x
-00112$:
-	ldw	x, (0x2c, sp)
-	cpw	x, #0x0032
-	jrsge	00116$
-;	se8r01-receive.c: 598: __asm__("nop");
+;	se8r01-receive.c: 604: __asm__("nop");
 	nop
-;	se8r01-receive.c: 597: for (z1 = 0; z1 < 50; ++z1)
+;	se8r01-receive.c: 603: for (z1 = 0; z1 < 50; ++z1)
 	ldw	x, (0x2c, sp)
 	incw	x
 	ldw	(0x2c, sp), x
-	jra	00112$
-00116$:
-;	se8r01-receive.c: 596: for (y1 = 0; y1 < 50; ++y1)
+	jra	00115$
+00119$:
+;	se8r01-receive.c: 602: for (y1 = 0; y1 < 50; ++y1)
 	ldw	x, (0x2e, sp)
 	incw	x
 	ldw	(0x2e, sp), x
-	jra	00115$
-00119$:
-;	se8r01-receive.c: 595: for (x1 = 0; x1 < 50; ++x1)
+	jra	00118$
+00122$:
+;	se8r01-receive.c: 601: for (x1 = 0; x1 < 50; ++x1)
 	ldw	x, (0x30, sp)
 	incw	x
 	ldw	(0x30, sp), x
-	jra	00118$
+	jra	00121$
 	addw	sp, #51
 	ret
 	.area CODE
@@ -1771,6 +1769,10 @@ ___str_0:
 	.db 0x00
 ___str_1:
 	.ascii "status = "
+	.db 0x0A
+	.db 0x0D
+	.db 0x00
+___str_2:
 	.db 0x0A
 	.db 0x0D
 	.db 0x00

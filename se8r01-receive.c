@@ -526,6 +526,7 @@ int main () {
 	UCHAR tx_addr[]     = { 0xe1, 0xf0, 0xf0, 0xf0, 0xf0 };
 	UCHAR tx_payload[33];
 	UCHAR readstatus;
+int teller;
 	volatile int x1, y1, z1;
 	InitializeSystemClock();
 	InitializeUART();
@@ -563,16 +564,21 @@ if ((PD_IDR & (1 << 3))==0) //input low
 			{
 
 				pip= (status & 0b00001110)>>1;
-				//  pload_width_now=SPI_Read(iRF_CMD_R_RX_PL_WID);
+				 pload_width_now=read_spi_reg(iRF_CMD_R_RX_PL_WID);
+				read_spi_buf(RD_RX_PLOAD, rx_buf,32);             // read playload to rx_buf
 				write_spi_reg(FLUSH_RX,0);
-				read_spi_buf(RD_RX_PLOAD, rx_buf,4);             // read playload to rx_buf
 				//    print_pip();
 				newdata=1;
-				print_UCHAR_hex(rx_buf[0]);
-				print_UCHAR_hex(rx_buf[1]);
-				print_UCHAR_hex(rx_buf[2]);
-				print_UCHAR_hex(rx_buf[3]);
-				print_UCHAR_hex(rx_buf[4]);
+for (teller=0;teller<32;++teller)
+	print_UCHAR_hex (rx_buf[teller]);
+//	print_UCHAR_hex (rx_buf[1]);
+//	print_UCHAR_hex (rx_buf[2]);
+//	print_UCHAR_hex (rx_buf[3]);
+//	print_UCHAR_hex (rx_buf[4]);
+//	print_UCHAR_hex (rx_buf[30]);
+//	print_UCHAR_hex (rx_buf[31]);
+				//print_UCHAR_hex(rx_buf[4]);
+	UARTPrintF("\n\r");
 			}
 
 			write_spi_reg(WRITE_REG+STATUS,status);       // clear RX_DR or TX_DS or MAX_RT interrupt flag

@@ -1,4 +1,4 @@
-This is my "bare metal" software package for sending stuff  with the stm8s103f3p6 
+This is my "bare metal" software package for receiving stuff  with the stm8s103f3p6 
 
 I ordered SE8R01 (search for SE8R01_DataSheet_v1) thinking it was a NRF24
 I found some arduino software which I ported to stm8
