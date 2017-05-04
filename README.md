@@ -3,8 +3,6 @@ This is my "bare metal" software package for receiving stuff  with the stm8s103f
 I ordered SE8R01 (search for SE8R01_DataSheet_v1) thinking it was a NRF24
 I found some arduino software which I ported to stm8
 
-it works! (tested with arduino receiver : will build a stm8 receiver though :) )
-
 
 As far as software packages, you'll need at the very least, the SDCC compiler and a way to u
 pload the resulting IHX file to the device:

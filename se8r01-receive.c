@@ -281,7 +281,7 @@ void init_io(void)
 	PD_DDR &= ~(1 << 3); // input mode
 	PD_CR1 |= (1 << 3); // input with pull up 
 	PD_CR2 |= (1 << 3); // interrupt enabled 
-//	PD_ODR &= ~(1 << 3);
+	//	PD_ODR &= ~(1 << 3);
 	//  digitalWrite(IRQq, 0);
 	//PC_ODR |= (1 << CE);
 	PC_ODR &= ~(1 << CE);
@@ -526,7 +526,7 @@ int main () {
 	UCHAR tx_addr[]     = { 0xe1, 0xf0, 0xf0, 0xf0, 0xf0 };
 	UCHAR tx_payload[33];
 	UCHAR readstatus;
-int teller;
+	int teller;
 	volatile int x1, y1, z1;
 	InitializeSystemClock();
 	InitializeUART();
@@ -552,9 +552,9 @@ int teller;
 
 	while (1) {
 
-if ((PD_IDR & (1 << 3))==0) //input low
+		if ((PD_IDR & (1 << 3))==0) //input low
 
-//		if(digitalRead(IRQq)==LOW)
+			//		if(digitalRead(IRQq)==LOW)
 		{
 			delay(240);
 			signal_lv=read_spi_reg(iRF_BANK0_RPD);
@@ -564,40 +564,20 @@ if ((PD_IDR & (1 << 3))==0) //input low
 			{
 
 				pip= (status & 0b00001110)>>1;
-				 pload_width_now=read_spi_reg(iRF_CMD_R_RX_PL_WID);
+				pload_width_now=read_spi_reg(iRF_CMD_R_RX_PL_WID);
 				read_spi_buf(RD_RX_PLOAD, rx_buf,32);             // read playload to rx_buf
 				write_spi_reg(FLUSH_RX,0);
 				//    print_pip();
 				newdata=1;
-for (teller=0;teller<32;++teller)
-	print_UCHAR_hex (rx_buf[teller]);
-//	print_UCHAR_hex (rx_buf[1]);
-//	print_UCHAR_hex (rx_buf[2]);
-//	print_UCHAR_hex (rx_buf[3]);
-//	print_UCHAR_hex (rx_buf[4]);
-//	print_UCHAR_hex (rx_buf[30]);
-//	print_UCHAR_hex (rx_buf[31]);
-				//print_UCHAR_hex(rx_buf[4]);
-	UARTPrintF("\n\r");
+				for (teller=0;teller<32;++teller)
+					print_UCHAR_hex (rx_buf[teller]);
+				UARTPrintF("\n\r");
 			}
 
 			write_spi_reg(WRITE_REG+STATUS,status);       // clear RX_DR or TX_DS or MAX_RT interrupt flag
 
 		}
 
-		//some testdata
-		//		tx_payload[0] = 0xff;
-		//		tx_payload[1] = 0xff;
-		//		tx_payload[2] = 0x01;
-		//		tx_payload[3] = 0x02;
-		//		write_spi_buf(iRF_CMD_WR_TX_PLOAD, tx_payload, 4);
-		//		write_spi_reg(WRITE_REG+STATUS, 0xff);
-		// readstatus = read_spi_reg(STATUS);
-		//  UARTPrintF("status = \n\r");
-		//  print_UCHAR_hex(readstatus);
-		//	readstatus=read_spi_reg(OBSERVE_TX); 
-		//	print_UCHAR_hex(readstatus);
-		// Delay before looping back
 		for (x1 = 0; x1 < 50; ++x1)
 			for (y1 = 0; y1 < 50; ++y1)
 				for (z1 = 0; z1 < 50; ++z1)
